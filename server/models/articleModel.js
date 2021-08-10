@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
+const aggregatePaginate = require("mongoose-aggregate-paginate-v2");
 
 const articleSchema = mongoose.Schema({
   title: {
@@ -48,6 +49,8 @@ const articleSchema = mongoose.Schema({
     default: Date.now,
   },
 });
+
+articleSchema.plugin(aggregatePaginate);
 
 const Article = mongoose.model("Article", articleSchema);
 module.exports = { Article };
