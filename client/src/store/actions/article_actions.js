@@ -16,6 +16,8 @@ export const getArticles = (sort) => {
       }
 
       dispatch(articles.getArticles(newArts));
-    } catch (error) {}
+    } catch (error) {
+      dispatch(articles.errorGlobal("Oops error loading articles"));
+    }
   };
 };
