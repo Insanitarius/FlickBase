@@ -10,6 +10,10 @@ import MainLayout from "./hoc/mainLayout";
 import Auth from "./components/auth";
 import { isAuthUser } from "./store/actions/users_actions";
 import Loader from "./utils/loader";
+import Dashboard from "./components/dashboard";
+import Profile from "./components/dashboard/profile";
+import Articles from "./components/dashboard/articles";
+import AuthGuard from "./hoc/authGuard";
 
 const Routes = () => {
   const [loading, setLoading] = useState(true);
@@ -35,6 +39,12 @@ const Routes = () => {
       ) : (
         <MainLayout>
           <Switch>
+            <Route
+              path="/dashboard/articles"
+              component={AuthGuard(Articles, true)}
+            />
+            <Route path="/dashboard/profile" component={AuthGuard(Profile)} />
+            <Route path="/dashboard" component={AuthGuard(Dashboard)} />
             <Route path="/auth" component={Auth} />
             <Route path="/" component={Home} />
           </Switch>

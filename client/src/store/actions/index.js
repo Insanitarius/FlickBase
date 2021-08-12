@@ -5,6 +5,7 @@ import {
   CLEAR_NOTIFICATION,
   AUTH_USER,
   SIGN_OUT,
+  SITE_LAYOUT,
 } from "../types";
 
 ///////////////////// Articles /////////////////////
@@ -40,3 +41,10 @@ export const authUser = (user) => ({
 });
 
 export const signOut = () => ({ type: SIGN_OUT });
+
+////////////////// Site //////////////////
+
+export const appLayout = (layout) => ({
+  type: SITE_LAYOUT,
+  payload: layout,
+});
