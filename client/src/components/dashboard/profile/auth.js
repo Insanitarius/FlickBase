@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import AdminLayout from "../../../hoc/adminLayout";
 
 import Modal from "react-bootstrap/Modal";
 import { Grid, TextField, Divider } from "@material-ui/core";
@@ -45,7 +44,7 @@ const AuthProfile = () => {
       <Divider />
       <Modal size="lg" centered show={emailModal} onHide={closeModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Update your E-mail</Modal.Title>
+          <Modal.Title>Update your email</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <EmailStepper user={users} />

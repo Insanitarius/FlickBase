@@ -14,6 +14,7 @@ import {
   CLEAR_CURRENT_ARTICLE,
   CLEAR_DELETED_ARTICLE,
   CHANGE_USER_EMAIL,
+  UPDATE_USER_PROFILE,
 } from "../types";
 
 ///////////////////// Articles /////////////////////
@@ -90,6 +91,11 @@ export const signOut = () => ({ type: SIGN_OUT });
 export const changeUserEmail = (data) => ({
   type: CHANGE_USER_EMAIL,
   payload: data,
+});
+
+export const updateUserProfile = (userData) => ({
+  type: UPDATE_USER_PROFILE,
+  payload: userData,
 });
 
 ////////////////// Site //////////////////
