@@ -14,6 +14,8 @@ import Dashboard from "./components/dashboard";
 import Profile from "./components/dashboard/profile";
 import Articles from "./components/dashboard/articles";
 import AuthGuard from "./hoc/authGuard";
+import Article from "./components/articles/article";
+import AddArticle from "./components/dashboard/articles/addArticle";
 
 const Routes = () => {
   const [loading, setLoading] = useState(true);
@@ -40,11 +42,16 @@ const Routes = () => {
         <MainLayout>
           <Switch>
             <Route
+              path="/dashboard/articles/add"
+              component={AuthGuard(AddArticle, true)}
+            />
+            <Route
               path="/dashboard/articles"
               component={AuthGuard(Articles, true)}
             />
             <Route path="/dashboard/profile" component={AuthGuard(Profile)} />
             <Route path="/dashboard" component={AuthGuard(Dashboard)} />
+            <Route path="/article/:id" component={Article} />
             <Route path="/auth" component={Auth} />
             <Route path="/" component={Home} />
           </Switch>

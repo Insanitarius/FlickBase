@@ -6,13 +6,30 @@ import {
   AUTH_USER,
   SIGN_OUT,
   SITE_LAYOUT,
+  GET_ARTICLE,
+  ADD_ARTICLE,
+  CLEAR_CURRENT_ARTICLE,
 } from "../types";
 
 ///////////////////// Articles /////////////////////
 
+export const addArticle = (article) => ({
+  type: ADD_ARTICLE,
+  payload: article,
+});
+
 export const getArticles = (articles) => ({
   type: GET_ARTICLES,
   payload: articles,
+});
+
+export const getArticle = (article) => ({
+  type: GET_ARTICLE,
+  payload: article,
+});
+
+export const clearCurrentArticle = () => ({
+  type: CLEAR_CURRENT_ARTICLE,
 });
 
 ///////////////////// Notifications /////////////////////
