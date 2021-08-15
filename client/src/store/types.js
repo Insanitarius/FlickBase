@@ -17,6 +17,9 @@ export const CLEAR_NOTIFICATION = "clear_notification";
 ///////////////////User///////////////////
 export const AUTH_USER = "auth_user";
 export const SIGN_OUT = "sign_out";
-export const SITE_LAYOUT = "site_layout";
 export const CHANGE_USER_EMAIL = "change_user_email";
 export const UPDATE_USER_PROFILE = "update_user_profile";
+export const VERIFY_ACCOUNT = "verify_account";
+
+///////////////////Site///////////////////
+export const SITE_LAYOUT = "site_layout";

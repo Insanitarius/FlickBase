@@ -32,7 +32,9 @@ const Header = (props) => {
 
   useEffect(() => {
     if (notification && notification.error) {
-      const msg = notification.msg ? notification.msg : "Something went wrong";
+      const msg = notification.msg
+        ? notification.msg
+        : "Sorry, something went wrong!";
       showToast("ERROR", msg);
       dispatch(clearNotification());
     }

@@ -17,7 +17,7 @@ export const registerUser = (values) => {
       });
 
       dispatch(users.authUser({ data: user.data, auth: true }));
-      dispatch(users.successGlobal("Registered successfully!"));
+      dispatch(users.successGlobal("Welcome to FlickBase!"));
     } catch (error) {
       dispatch(users.errorGlobal(error.response.data.message));
     }
@@ -97,6 +97,34 @@ export const updateUserProfile = (data) => {
 
       dispatch(users.updateUserProfile(userData));
       dispatch(users.successGlobal("Profile updated successfully!"));
+    } catch (error) {
+      dispatch(users.errorGlobal(error.response.data.message));
+    }
+  };
+};
+
+export const contactMe = (data) => {
+  return async (dispatch) => {
+    try {
+      await axios.post(`/api/users/contact`, data);
+      dispatch(users.successGlobal("Message sent successfully!"));
+    } catch (error) {
+      dispatch(users.errorGlobal(error.response.data.message));
+    }
+  };
+};
+
+export const accountVerify = (token) => {
+  return async (dispatch, getState) => {
+    try {
+      const user = getState().users.auth;
+
+      await axios.get(`/api/users/verify?verification=${token}`);
+
+      if (user) {
+        dispatch(users.accountVerify());
+      }
+      dispatch(users.successGlobal("Account verified successfully!"));
     } catch (error) {
       dispatch(users.errorGlobal(error.response.data.message));
     }

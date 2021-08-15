@@ -3,6 +3,7 @@ let router = express.Router();
 require("dotenv").config();
 const { checkLoggedIn } = require("../../middleware/auth");
 const { grantAccess } = require("../../middleware/roles");
+const { contactMail, registerEmail } = require("../../config/email");
 
 const { User } = require("../../models/userModel");
 
@@ -24,6 +25,8 @@ router.route("/register").post(async (req, res) => {
     const doc = await user.save();
 
     // 4 send email
+    const emailToken = user.generateRegisterToken();
+    await registerEmail(doc.email, emailToken);
 
     // save...send token with cookie
     res.cookie("x-access-token", token).status(200).send(getUserProps(doc));
@@ -36,11 +39,12 @@ router.route("/signin").post(async (req, res) => {
   try {
     // FIND USER
     let user = await User.findOne({ email: req.body.email });
-    if (!user) return res.status(400).json({ message: "Bad email" });
+    if (!user) return res.status(400).json({ message: "Email not found!" });
 
     /// COMPARE PASSWORD
     const compare = await user.comparePassword(req.body.password);
-    if (!compare) return res.status(400).json({ message: "Bad password" });
+    if (!compare)
+      return res.status(400).json({ message: "Incorrect password" });
 
     // GENERATE TOKEN
     const token = user.generateToken();
@@ -131,6 +135,34 @@ router
     }
   );
 
+router.route("/contact").post(async (req, res) => {
+  try {
+    await contactMail(req.body);
+    res.status(200).send("ok");
+  } catch (error) {
+    res.status(400).json({
+      message: "Please try again later!",
+      error: error,
+    });
+  }
+});
+
+router.route("/verify").get(async (req, res) => {
+  try {
+    const token = User.validateToken(req.query.verification);
+    const user = await User.findById(token._id);
+    if (!user) res.status(400).json({ message: "User not found!" });
+    if (user.verified) res.status(400).json({ message: "Already Verified!" });
+
+    user.verified = true;
+    await user.save();
+
+    res.status(200).send(getUserProps(user));
+  } catch (error) {
+    res.status(400).send("Verification failed, please try again!");
+  }
+});
+
 const getUserProps = (user) => {
   return {
     _id: user._id,
@@ -139,6 +171,7 @@ const getUserProps = (user) => {
     lastname: user.lastname,
     age: user.age,
     role: user.role,
+    verified: user.verified,
   };
 };
 
