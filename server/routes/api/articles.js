@@ -94,8 +94,15 @@ router
   .route("/admin/paginate")
   .post(checkLoggedIn, grantAccess("readAny", "articles"), async (req, res) => {
     try {
+      let aggQuery;
+      if (req.body.keywords != "") {
+        const re = new RegExp(`${req.body.keywords}`, "gi");
+        aggQuery = Article.aggregate([{ $match: { title: { $regex: re } } }]);
+      } else {
+        aggQuery = Article.aggregate();
+      }
+
       const limit = req.body.limit ? req.body.limit : 5;
-      const aggQuery = Article.aggregate();
       const options = {
         page: req.body.page,
         limit,
@@ -105,7 +112,9 @@ router
 
       res.status(200).json(article);
     } catch (error) {
-      res.status(400).json({ message: "Error", error: error });
+      res
+        .status(400)
+        .json({ message: "Oops, something went wrong!", error: error });
     }
   });
 

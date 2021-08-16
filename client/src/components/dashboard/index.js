@@ -4,7 +4,9 @@ import AdminLayout from "../../hoc/adminLayout";
 const Dashboard = () => {
   return (
     <>
-      <AdminLayout section={"Dashboard"}>owo</AdminLayout>
+      <AdminLayout section={"Dashboard"}>
+        <h4>Welcome to FlickBase!</h4>
+      </AdminLayout>
     </>
   );
 };

@@ -136,8 +136,8 @@ export const accountVerify = (token) => {
         dispatch(users.accountVerify());
       }
       dispatch(users.successGlobal("Account verified successfully!"));
-      // TEesting sign user out after verification
-      // dispatch(users.signOut());
+      // Testing sign user out after verification
+      dispatch(users.signOut());
       dispatch(users.successGlobal("Please login to continue!"));
       dispatch(users.successGlobal("Please login to continue!"));
     } catch (error) {

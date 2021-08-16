@@ -13,6 +13,7 @@ const iconStyle = {
 const AccountVerification = (props) => {
   const [icon, setIcon] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [redirect, setRedirect] = useState(false);
   const notification = useSelector((state) => state.notification);
   const dispatch = useDispatch();
   const query = new URLSearchParams(props.location.search);
@@ -30,13 +31,18 @@ const AccountVerification = (props) => {
     if (notification && notification.error) {
       setIcon(<SentimentDissatisfiedIcon style={iconStyle} />);
       setLoading(false);
+      setRedirect(true);
     }
     if (notification && notification.success) {
       setIcon(<Favorite style={iconStyle} />);
-
       setLoading(false);
+      setRedirect(true);
     }
   }, [notification]);
+
+  useEffect(() => {
+    if (redirect) setTimeout(() => props.history.push("/"), 2000);
+  }, [redirect, props.history]);
 
   return (
     <>

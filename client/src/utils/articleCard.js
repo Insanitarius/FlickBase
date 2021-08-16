@@ -20,14 +20,13 @@ const ArticleCard = ({ article }) => {
         image="https://picsum.photos/200"
         title="some title"
       />
-      {/* TODO*/}
+
       <CardContent
         style={{
           overflow: "hidden",
           height: "15rem",
         }}
       >
-        {/* TODO */}
         <Typography gutterBottom variant="h5" component="h2">
           {article.title}
         </Typography>

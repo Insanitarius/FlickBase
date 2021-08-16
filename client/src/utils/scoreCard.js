@@ -10,10 +10,12 @@ import {
 } from "@material-ui/core";
 
 import MovieIcon from "@material-ui/icons/Movie";
+import ListIcon from "@material-ui/icons/List";
 import PersonIcon from "@material-ui/icons/Person";
 import StarIcon from "@material-ui/icons/Star";
 
 const ScoreCard = ({ current }) => {
+  console.log(current);
   return (
     <List className="scorecard">
       {/* Score */}
@@ -30,6 +32,26 @@ const ScoreCard = ({ current }) => {
         />
       </ListItem>
       <Divider variant="inset" component="li" />
+
+      {current.category && current.category.name ? (
+        <div>
+          {/* Categories */}
+          <ListItem>
+            <ListItemAvatar>
+              <Avatar>
+                <ListIcon />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText
+              primary="Category"
+              secondary={current.category.name}
+              className="category"
+            />
+          </ListItem>
+          <Divider variant="inset" component="li" />
+        </div>
+      ) : null}
+
       {/* Actor */}
       <ListItem>
         <ListItemAvatar>
@@ -59,7 +81,11 @@ const ScoreCard = ({ current }) => {
             <MovieIcon />
           </Avatar>
         </ListItemAvatar>
-        <ListItemText primary="Director" secondary={current.director} />
+        <ListItemText
+          primary="Director"
+          secondary={current.director}
+          className="director"
+        />
       </ListItem>
     </List>
   );

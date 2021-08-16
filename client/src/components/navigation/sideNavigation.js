@@ -8,7 +8,6 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  TextField,
 } from "@material-ui/core";
 
 import DehazeIcon from "@material-ui/icons/Dehaze";

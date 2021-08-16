@@ -100,6 +100,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .scorecard .rating .MuiListItemText-secondary{
   font-size:50px;
 }
+.scorecard .category .MuiListItemText-secondary{
+  font-size:30px;
+}
+.scorecard .director .MuiListItemText-secondary{
+  font-size:20px;
+}
+
 .scorecard .MuiAvatar-colorDefault {
   background-color: #efefef;
 }

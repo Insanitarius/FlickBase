@@ -4,6 +4,8 @@ import { getAuthHeader } from "../../utils/tools";
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
+let count = 0;
+
 export const getArticles = (sort) => {
   return async (dispatch, getState) => {
     try {
@@ -14,6 +16,12 @@ export const getArticles = (sort) => {
 
       if (prevArts) {
         newArts = [...prevArts, ...arts.data];
+      }
+      let tempCount = newArts.length;
+      if (count !== tempCount) {
+        count = tempCount;
+      } else {
+        dispatch(articles.errorGlobal("No more articles to be loaded!"));
       }
 
       dispatch(articles.getArticles(newArts));
@@ -51,12 +59,13 @@ export const addArticle = (article) => {
   };
 };
 
-export const getPaginateArticles = (page = 1, limit = 10) => {
+export const getPaginateArticles = (page = 1, limit = 5, keywords = "") => {
   return async (dispatch) => {
     try {
       const request = await axios.post(
         `/api/articles/admin/paginate`,
         {
+          keywords,
           page,
           limit,
         },
