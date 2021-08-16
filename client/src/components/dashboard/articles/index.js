@@ -23,6 +23,7 @@ import { clearDeletedArticle } from "../../../store/actions";
 const Articles = (props) => {
   const dispatch = useDispatch();
   const articles = useSelector((state) => state.articles);
+  const notification = useSelector((state) => state.notification);
   const [removeAlert, setRemoveAlert] = useState(false);
   const [toRemove, setToRemove] = useState(null);
   let arts = articles.adminArticles;
@@ -57,11 +58,10 @@ const Articles = (props) => {
 
   useEffect(() => {
     handleClose();
-    if (articles.removeArticle) {
+    if (notification && notification.removeArticle) {
       dispatch(getPaginateArticles(arts.page));
-      dispatch(clearDeletedArticle());
     }
-  }, [dispatch, articles, arts]);
+  }, [dispatch, notification, arts]);
 
   useEffect(() => {
     dispatch(getPaginateArticles());

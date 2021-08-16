@@ -17,7 +17,13 @@ export const registerUser = (values) => {
       });
 
       dispatch(users.authUser({ data: user.data, auth: true }));
-      dispatch(users.successGlobal("Welcome to FlickBase!"));
+      dispatch(users.successGlobal("Registration successful!"));
+
+      //Signing user out till they verify
+
+      dispatch(users.signOut());
+      dispatch(users.successGlobal("Please verify your mail!"));
+      dispatch(users.successGlobal("Please verify your mail!"));
     } catch (error) {
       dispatch(users.errorGlobal(error.response.data.message));
     }
@@ -32,8 +38,13 @@ export const signInUser = (values) => {
         password: values.password,
       });
 
-      dispatch(users.authUser({ data: user.data, auth: true }));
-      dispatch(users.successGlobal("Logged in successfully!"));
+      //Check if user did verification else ask them to verify
+      if (user.data.verified === false) {
+        dispatch(users.successGlobal("Please verify your mail!"));
+      } else {
+        dispatch(users.authUser({ data: user.data, auth: true }));
+        dispatch(users.successGlobal("Welcome to FlickBase!"));
+      }
     } catch (error) {
       dispatch(users.errorGlobal(error.response.data.message));
     }
@@ -125,6 +136,10 @@ export const accountVerify = (token) => {
         dispatch(users.accountVerify());
       }
       dispatch(users.successGlobal("Account verified successfully!"));
+      // TEesting sign user out after verification
+      // dispatch(users.signOut());
+      dispatch(users.successGlobal("Please login to continue!"));
+      dispatch(users.successGlobal("Please login to continue!"));
     } catch (error) {
       dispatch(users.errorGlobal(error.response.data.message));
     }

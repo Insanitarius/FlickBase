@@ -7,6 +7,7 @@ const { sortArgsHelper } = require("../../config/helper");
 
 //model
 const { Article } = require("../../models/articleModel");
+const { Category } = require("../../models/categoryModel");
 
 router
   .route("/admin/add_articles")
@@ -108,12 +109,38 @@ router
     }
   });
 
+router.route("/user/search").post(async (req, res) => {
+  try {
+    if (req.body.keywords == "") {
+      return res.status(400).json({ message: "The search is empty" });
+    }
+
+    const re = new RegExp(`${req.body.keywords}`, "gi");
+
+    let aggQuery = Article.aggregate([
+      { $match: { status: "public" } },
+      { $match: { title: { $regex: re } } },
+    ]);
+
+    const limit = req.body.limit ? req.body.limit : 5;
+    const options = {
+      page: req.body.page,
+      limit,
+      sort: { _id: "desc" },
+    };
+    const article = await Article.aggregatePaginate(aggQuery, options);
+    res.status(200).json(article);
+  } catch (error) {
+    res.status(400).json({ message: "Not found", error: error });
+  }
+});
+
 router.route("/get_byid/:id").get(async (req, res) => {
   try {
     const article = await Article.find({
       _id: req.params.id,
       status: "public",
-    });
+    }).populate("category");
     if (!article || article.length === 0) {
       return res.status(400).json({ message: "Article not found" });
     }
@@ -129,6 +156,7 @@ router.route("/loadmore").post(async (req, res) => {
     let sortArgs = sortArgsHelper(req.body);
 
     const article = await Article.find({ status: "public" })
+      .populate("category")
       .sort([[sortArgs.sortBy, sortArgs.order]])
       .skip(sortArgs.skip)
       .limit(sortArgs.limit);
@@ -138,5 +166,34 @@ router.route("/loadmore").post(async (req, res) => {
     res.status(400).json({ message: "Error fetching article", error: error });
   }
 });
+
+router
+  .route("/categories")
+  .get(async (req, res) => {
+    try {
+      const categories = await Category.find();
+      res.status(200).json(categories);
+    } catch (error) {
+      res
+        .status(400)
+        .json({ message: "Error fetching categories", error: error });
+    }
+  })
+  .post(
+    checkLoggedIn,
+    grantAccess("createAny", "categories"),
+    async (req, res) => {
+      try {
+        const category = new Category(req.body);
+        await category.save();
+
+        res.status(200).json(category);
+      } catch (error) {
+        res
+          .status(400)
+          .json({ message: "Error fetching categories", error: error });
+      }
+    }
+  );
 
 module.exports = router;

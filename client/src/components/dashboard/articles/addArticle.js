@@ -19,7 +19,10 @@ import {
   FormHelperText,
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
-import { addArticle } from "../../../store/actions/article_actions";
+import {
+  addArticle,
+  getCategories,
+} from "../../../store/actions/article_actions";
 import Loader from "../../../utils/loader";
 
 const AddArticle = (props) => {
@@ -28,7 +31,7 @@ const AddArticle = (props) => {
   const actorsValue = useRef("");
 
   const dispatch = useDispatch();
-  //const success = useSelector((state)=>state.articles.success)
+  const { categories } = useSelector((state) => state.articles);
   const notification = useSelector((state) => state.notification);
 
   const formik = useFormik({
@@ -65,6 +68,10 @@ const AddArticle = (props) => {
       setIsSubmitting(false);
     }
   }, [notification, props.history]);
+
+  useEffect(() => {
+    dispatch(getCategories());
+  }, [dispatch]);
 
   return (
     <AdminLayout section="Add article">
@@ -185,6 +192,36 @@ const AddArticle = (props) => {
           </div>
 
           <FormControl variant="outlined">
+            <h5>Select a category</h5>
+            <Select
+              name="category"
+              {...formik.getFieldProps("category")}
+              error={
+                formik.errors.category && formik.touched.category ? true : false
+              }
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+
+              {categories
+                ? categories.map((item) => (
+                    <MenuItem key={item._id} value={item._id}>
+                      {item.name}
+                    </MenuItem>
+                  ))
+                : null}
+            </Select>
+            {formik.errors.category && formik.touched.category ? (
+              <FormHelperText error={true}>
+                {formik.errors.category}
+              </FormHelperText>
+            ) : null}
+          </FormControl>
+
+          <Divider className="mt-3 mb-3" />
+
+          <FormControl variant="outlined">
             <h5>Select a status</h5>
             <Select
               name="status"
@@ -193,7 +230,9 @@ const AddArticle = (props) => {
                 formik.errors.status && formik.touched.status ? true : false
               }
             >
-              <MenuItem value="">None</MenuItem>
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
               <MenuItem value="draft">Draft</MenuItem>
               <MenuItem value="public">Public</MenuItem>
             </Select>

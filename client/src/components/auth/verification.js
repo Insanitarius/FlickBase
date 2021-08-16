@@ -24,7 +24,7 @@ const AccountVerification = (props) => {
     } else {
       props.history.push("/");
     }
-  }, [dispatch]);
+  }, [dispatch, props.history, token]);
 
   useEffect(() => {
     if (notification && notification.error) {

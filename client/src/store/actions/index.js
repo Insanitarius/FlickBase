@@ -4,6 +4,7 @@ import {
   SUCCESS_GLOBAL,
   CLEAR_NOTIFICATION,
   REMOVE_ARTICLE,
+  NAV_SEARCH,
   AUTH_USER,
   SIGN_OUT,
   SITE_LAYOUT,
@@ -12,10 +13,11 @@ import {
   GET_ADMIN_ARTICLES,
   UPDATE_ARTICLE_STATUS,
   CLEAR_CURRENT_ARTICLE,
-  CLEAR_DELETED_ARTICLE,
   CHANGE_USER_EMAIL,
   UPDATE_USER_PROFILE,
   VERIFY_ACCOUNT,
+  GET_CATEGORIES,
+  ADD_CATEGORY,
 } from "../types";
 
 ///////////////////// Articles /////////////////////
@@ -49,17 +51,20 @@ export const clearCurrentArticle = () => ({
   type: CLEAR_CURRENT_ARTICLE,
 });
 
-export const removeArticle = () => ({
-  type: REMOVE_ARTICLE,
+export const getCategories = (categories) => ({
+  type: GET_CATEGORIES,
+  payload: categories,
 });
 
-export const clearDeletedArticle = () => {
-  return (dispatch) => {
-    dispatch({
-      type: CLEAR_DELETED_ARTICLE,
-    });
-  };
-};
+export const addCategory = (categories) => ({
+  type: ADD_CATEGORY,
+  payload: categories,
+});
+
+export const navSearch = (articles) => ({
+  type: NAV_SEARCH,
+  payload: articles,
+});
 
 ///////////////////// Notifications /////////////////////
 
@@ -80,6 +85,10 @@ export const clearNotification = () => {
     });
   };
 };
+
+export const removeArticle = () => ({
+  type: REMOVE_ARTICLE,
+});
 
 ///////////////////// Users /////////////////////
 export const authUser = (user) => ({
