@@ -47,7 +47,7 @@ const Header = (props) => {
   }, [notification, dispatch]);
   return (
     <>
-      <nav className={`navbar fixed-top ${layout}`}>
+      <nav className={`navbar sticky-top ${layout}`}>
         <Link
           style={{ fontFamily: "Fredoka One" }}
           to="/"

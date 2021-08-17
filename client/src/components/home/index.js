@@ -1,6 +1,7 @@
 import React, { useState, useReducer, useEffect } from "react";
 import { Grid, Button } from "@material-ui/core";
 import ArticleCard from "../../utils/articleCard";
+import Carousel from "react-bootstrap/Carousel";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getArticles } from "../../store/actions/article_actions";
@@ -31,7 +32,17 @@ const Home = () => {
 
   return (
     <>
-      <div>CRROUSEL</div>
+      <Carousel className="carrousel_avatar mb-4">
+        <div
+          style={{
+            backgroundImage: "url('https://picsum.photos/1920/1080')",
+            backgroundPosition: "center",
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+          }}
+        ></div>
+      </Carousel>
+
       <Grid container spacing={2} className="article_card">
         {articles && articles.articles
           ? articles.articles.map((item, index) => {
