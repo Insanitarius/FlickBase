@@ -25,6 +25,7 @@ export const registerUser = (values) => {
       dispatch(users.successGlobal("Please verify your mail!"));
       dispatch(users.successGlobal("Please verify your mail!"));
     } catch (error) {
+      dispatch(users.signOut());
       dispatch(users.errorGlobal(error.response.data.message));
     }
   };

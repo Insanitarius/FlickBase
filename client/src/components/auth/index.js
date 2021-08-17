@@ -9,6 +9,7 @@ import PreventAuthRoute from "../../hoc/preventAuthRoute";
 
 const Auth = (props) => {
   const [register, setRegister] = useState(false);
+  const [disable, setDisable] = useState(false);
   const notification = useSelector((state) => state.notification);
   const dispatch = useDispatch();
 
@@ -27,6 +28,7 @@ const Auth = (props) => {
 
   const handleSubmit = (values) => {
     if (register) {
+      setDisable(true);
       dispatch(registerUser(values));
     } else {
       dispatch(signInUser(values));
@@ -44,6 +46,9 @@ const Auth = (props) => {
   useEffect(() => {
     if (notification && notification.success) {
       props.history.push("/dashboard");
+    }
+    if (notification && notification.error) {
+      setDisable(false);
     }
   }, [notification, props.history]);
 
@@ -78,6 +83,7 @@ const Auth = (props) => {
             color="primary"
             type="submit"
             size="large"
+            disabled={disable}
           >
             {register ? "Register" : "Login"}
           </Button>
