@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-const categoriesSchemale = mongoose.Schema({
+const categoriesSchema = mongoose.Schema({
   name: {
     type: String,
     unique: true,
@@ -16,5 +16,5 @@ const categoriesSchemale = mongoose.Schema({
   },
 });
 
-const Category = mongoose.model("Category", categoriesSchemale);
+const Category = mongoose.model("Category", categoriesSchema);
 module.exports = { Category };
