@@ -26,7 +26,7 @@ app.use("/api/articles", articles);
 if (process.env.NODE_ENV === "production") {
 	const path = require("path");
 	app.get("/", (req, res) => {
-		app.use("/static", express.static(path.resolve(__dirname, "client", "build")));
+		app.use(express.static(path.resolve(__dirname, "client", "build", "static")));
 		res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
 	});
 }
