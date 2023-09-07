@@ -21,13 +21,13 @@ app.use(checkToken);
 app.use("/api/users", users);
 app.use("/api/articles", articles);
 
-app.use(express.static("client/build"));
+app.use(express.static(path.resolve(__dirname, "client", "build")));
 
 if (process.env.NODE_ENV === "production") {
 	const path = require("path");
 	app.get("/", (req, res) => {
-		// app.use(express.static("client/build"));
-		res.sendFile(path.resolve(__dirname, "/client/", "build", "index.html"));
+		// app.use(express.static(path.resolve(__dirname, "client", "build")));
+		res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
 	});
 }
 
